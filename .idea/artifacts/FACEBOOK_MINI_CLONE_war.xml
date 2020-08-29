@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="FACEBOOK MINI CLONE:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>FACEBOOK MINI CLONE</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="FACEBOOKMINICLONE-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="FACEBOOK MINI CLONE:war exploded" />
+    </root>
+  </artifact>
+</component>

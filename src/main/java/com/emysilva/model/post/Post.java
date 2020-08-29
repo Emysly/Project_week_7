@@ -26,6 +26,10 @@ public class Post {
 		this.id = id;
 	}
 
+	public Post() {
+
+	}
+
 	public int getId() {
 		return id;
 	}

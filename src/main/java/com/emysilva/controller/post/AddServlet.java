@@ -23,7 +23,7 @@ public class AddServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/post/addpost.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		//Copying all the input parameters in to local variables
 
 		String email = request.getParameter("email");
@@ -33,23 +33,14 @@ public class AddServlet extends HttpServlet {
 
 
 		Post post = new Post(title, message, email, username);
+
 		try {
 			postDao.addPost(post);
-		} catch (SQLException | ClassNotFoundException throwables) {
+		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
 
+			response.sendRedirect("/list");
 
-		//The core Logic of the Registration application is present here. We are going to insert user data in to the database.
-
-//		boolean userRegistered = false;
-//		try {
-//			userRegistered = postDao.addPost(post);
-//		} catch (ClassNotFoundException | SQLException e) {
-//			e.printStackTrace();
-//		}
-
-
-		response.sendRedirect("/");
 	}
 }

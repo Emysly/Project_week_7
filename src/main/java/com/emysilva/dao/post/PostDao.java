@@ -43,32 +43,8 @@ public class PostDao {
 		}
 	}
 
-//	public PostDao(St jdbcConnection) {
-//		this.jdbcConnection = jdbcConnection;
-//	}
 
-
-
-//	protected void connect() throws SQLException {
-//		if (jdbcConnection == null || jdbcConnection.isClosed()) {
-//			try {
-//				Class.forName("com.mysql.cj.jdbc.Driver");
-//			} catch (ClassNotFoundException e) {
-//				throw new SQLException(e);
-//			}
-//			jdbcConnection = DriverManager.getConnection(
-//					jdbcURL, jdbcUsername, jdbcPassword);
-//		}
-//	}
-//
-//	protected void disconnect() throws SQLException {
-//		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-//			jdbcConnection.close();
-//		}
-//	}
-
-
-	public boolean addPost(Post post) throws SQLException, ClassNotFoundException {
+	public boolean addPost(Post post) throws SQLException {
 		String email, username, title, message;
 
 		email = post.getEmail();
@@ -98,8 +74,6 @@ public class PostDao {
 //			return "Post message must be provided";
 //		}
 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
 
 			String query = "insert into post(email, title, message, username) values (?, ?, ?, ?)"; //Insert user details into the table 'USERS'
@@ -128,11 +102,8 @@ public class PostDao {
 	public List<Post> listAllPosts() throws SQLException, ClassNotFoundException {
 		List<Post> listPost = new ArrayList<>();
 
-		Connection con = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
-
-//		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		try {
 
@@ -190,44 +161,51 @@ public class PostDao {
 //		disconnect();
 //	}
 //
-//	public void updatePost(Post post) throws SQLException {
-//		String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
-//
-//		connect();
-//
-//		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-//		statement.setString(1, post.getTitle());
-//		statement.setString(2, post.getUsername());
-//		statement.setString(3, post.getMessage());
-//
-//		statement.close();
-//		disconnect();
-//	}
-//
-//	public Post getPost(int id) throws SQLException {
-//		Post post = null;
-//		String sql = "SELECT * FROM post WHERE id = ?";
-//
-//		connect();
-//
-//		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-//		statement.setInt(1, id);
-//
-//		ResultSet resultSet = statement.executeQuery();
-//
-//		if (resultSet.next()) {
-//			String title = resultSet.getString("title");
-//			String email = resultSet.getString("email");
-//			String username = resultSet.getString("username");
-//			String message = resultSet.getString("message");
-//
-////			post = new Post(id, title, email, username, message);
-//		}
-//
-//		resultSet.close();
-//		statement.close();
-//
-//		return post;
-//	}
+	public void updatePost(Post post) throws SQLException {
+		String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
+
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, post.getTitle());
+		statement.setString(2, post.getUsername());
+		statement.setString(3, post.getMessage());
+
+		statement.close();
+		disconnect();
+	}
+
+	public Post getPost(String id) throws Exception {
+
+		Post post;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			String sql = "SELECT * FROM post WHERE id = ?";
+
+			connect();
+
+			int postId = Integer.parseInt(id);
+
+			statement = jdbcConnection.prepareStatement(sql);
+			statement.setInt(1, postId);
+
+			resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				String title = resultSet.getString("title");
+				String email = resultSet.getString("email");
+				String username = resultSet.getString("username");
+				String message = resultSet.getString("message");
+
+				post = new Post(postId, title, message, email, username);
+			} else {
+				throw new Exception("Could not find post with id: " + postId);
+			}
+			return post;
+		} finally {
+			close(resultSet, statement);
+		}
+	}
 
 }

@@ -1,5 +1,4 @@
-<%@ page import="com.emysilva.model.post.Post" %>
-<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -10,10 +9,6 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
-	<%
-		List<Post> posts =
-				(List<Post>) request.getAttribute("listPosts");
-	%>
 <body>
 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
 	<strong>User login successfully</strong>
@@ -36,25 +31,33 @@
 		<button type="button" class="btn btn-outline-info m-3"><a href="${pageContext.request.contextPath}/list-posts">List All Post</a></button>
 		<table class="table table-hover">
 			<thead>
-			<tr>
-				<th scope="col" style="width: 5%">Id</th>
-				<th scope="col" style="width: 60%">Title</th>
-				<th scope="col">Creator</th>
-				<th scope="col">Actions</th>
-			</tr>
+				<tr>
+					<th scope="col" style="width: 5%">Id</th>
+					<th scope="col" style="width: 60%">Title</th>
+					<th scope="col">Creator</th>
+					<th scope="col">Actions</th>
+				</tr>
 			</thead>
-			<% for (Post post: posts) { %>
-					<tr>
-						<td><%= post.getId() %></td>
-						<td><%= post.getTitle() %></td>
-						<td><%= post.getUsername() %></td>
-						<td>
-							<a href="/edit?id=<%= post.getId() %>">Edit</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="/delete?id=<%= post.getId() %>">Delete</a>
-						</td>
-					</tr>
-			<% } %>
+			<c:forEach var="post" items="${listPosts}">
+
+				<c:url var="link" value="/get">
+					<c:param name="command" value="LOAD" />
+					<c:param name="postId" value="${post.id}" />
+				</c:url>
+
+				<tr>
+					<td>${post.id}</td>
+					<td>${post.title}</td>
+					<td>${post.username}</td>
+					<td>
+						<a href="${link}">Update</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="/view/<c:out value="${post.id}"/>">View</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="/delete/<c:out value="${post.id}"/>">Delete</a>
+					</td>
+				</tr>
+			</c:forEach>
 
 		</table>
 	</div>

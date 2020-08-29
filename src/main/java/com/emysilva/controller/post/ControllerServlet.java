@@ -57,13 +57,13 @@ public class ControllerServlet extends HttpServlet {
 					listPost(request, response);
 					break;
 			}
-		} catch (SQLException | ClassNotFoundException ex) {
+		} catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
 	}
 
 	private void listPost(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException, ClassNotFoundException {
+			throws SQLException, IOException, ServletException {
 		List<Post> listPosts = postDao.listAllPosts();
 		request.setAttribute("listPosts", listPosts);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listposts.jsp");
@@ -77,7 +77,7 @@ public class ControllerServlet extends HttpServlet {
 	}
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, ServletException, IOException, ClassNotFoundException {
+			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Post existingBook = postDao.getPost(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("editpost.jsp");
@@ -87,19 +87,20 @@ public class ControllerServlet extends HttpServlet {
 	}
 
 	private void insertPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ClassNotFoundException {
+			throws IOException, SQLException {
 		String title = request.getParameter("title");
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
 		String message = request.getParameter("message");
 
 		Post newPost = new Post(title, message, email, username);
-		PostDao.addPost(newPost);
+		PostDao postDao = new PostDao();
+		postDao.addPost(newPost);
 		response.sendRedirect("listposts");
 	}
 
 	private void updatePost(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ClassNotFoundException {
+			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String title = request.getParameter("title");
 		String email = request.getParameter("email");
@@ -112,7 +113,7 @@ public class ControllerServlet extends HttpServlet {
 	}
 
 	private void deletePost(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ClassNotFoundException {
+			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 
 		Post post = new Post(id);

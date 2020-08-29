@@ -10,6 +10,7 @@ public class PostDao {
 	private String jdbcURL;
 	private String jdbcUsername;
 	private String jdbcPassword;
+	private Connection jdbcConnection;
 
 	public PostDao() {}
 
@@ -19,72 +20,74 @@ public class PostDao {
 		this.jdbcPassword = jdbcPassword;
 	}
 
-	public static String addPost(Post post) throws ClassNotFoundException {
+
+
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(
+					jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+
+	public void addPost(Post post) throws SQLException {
 		String email, username, title, message;
 
 		if (!post.getEmail().equals("")) {
 			email = post.getEmail();
 		} else {
-			return "Creator email must be provided";
+			return;
 		}
 		if (!post.getUsername().equals("")) {
 			username = post.getUsername();
 		} else {
-			return "Creator username must be provided";
+			return;
 		}
 
 		if (!post.getTitle().equals("")) {
 			title = post.getTitle();
 		} else {
-			return "Post title must be provided";
+			return;
 		}
 
 		if (!post.getMessage().equals("")) {
 			message = post.getMessage();
 		} else {
-			return "Post message must be provided";
+			return;
 		}
 
 
-		Connection con;
 		PreparedStatement preparedStatement;
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		try
-		{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
+			connect();
 
 			String query = "insert into post(email, title, message, username) values (?, ?, ?, ?)"; //Insert post details into the table 'post'
-			preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
+			preparedStatement = jdbcConnection.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, title);
 			preparedStatement.setString(3, message);
 			preparedStatement.setString(4, username);
 
-			int i= preparedStatement.executeUpdate();
-
-			if (i!=0)  //Just to ensure data has been inserted into the database
-				return "SUCCESS";
+			//Just to ensure data has been inserted into the database
 		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return "";
 
-	}
-
-	public List<Post> listAllPosts() throws SQLException, ClassNotFoundException {
+	public List<Post> listAllPosts() throws SQLException {
 		List<Post> listPost = new ArrayList<>();
 
 		String sql = "SELECT * FROM post";
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-
-		Statement statement = con.createStatement();
+		connect();
+		Statement statement = jdbcConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 
 		while (resultSet.next()) {
@@ -100,58 +103,44 @@ public class PostDao {
 		resultSet.close();
 		statement.close();
 
-//		disconnect();
+		disconnect();
 
 		return listPost;
 	}
 
-	public boolean deletePost(Post post) throws SQLException, ClassNotFoundException {
+	public void deletePost(Post post) throws SQLException {
 		String sql = "DELETE FROM post where id = ?";
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		connect();
 
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-
-		Statement statement = con.createStatement();
-
-		PreparedStatement preparedStatement = con.prepareStatement(sql);
+		PreparedStatement preparedStatement = jdbcConnection.prepareStatement(sql);
 		preparedStatement.setString(1, post.getEmail());
 
-		boolean rowDeleted = preparedStatement.executeUpdate() > 0;
-		statement.close();
-//		disconnect();
-		return rowDeleted;
+		preparedStatement.close();
+		disconnect();
 	}
 
-	public boolean updatePost(Post post) throws SQLException, ClassNotFoundException {
+	public void updatePost(Post post) throws SQLException {
 		String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		connect();
 
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-
-
-		PreparedStatement statement = con.prepareStatement(sql);
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, post.getTitle());
 		statement.setString(2, post.getUsername());
 		statement.setString(3, post.getMessage());
 
-		boolean rowUpdated = statement.executeUpdate() > 0;
 		statement.close();
-//		disconnect();
-		return rowUpdated;
+		disconnect();
 	}
 
-	public Post getPost(int id) throws SQLException, ClassNotFoundException {
+	public Post getPost(int id) throws SQLException {
 		Post post = null;
 		String sql = "SELECT * FROM post WHERE id = ?";
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		connect();
 
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-
-
-		PreparedStatement statement = con.prepareStatement(sql);
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setInt(1, id);
 
 		ResultSet resultSet = statement.executeQuery();

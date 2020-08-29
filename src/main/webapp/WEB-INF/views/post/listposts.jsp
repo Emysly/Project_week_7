@@ -40,7 +40,8 @@
 			</tr>
 			</thead>
 
-			<c:forEach var="book" items="${posts}">
+			<% List<Post> posts = request.getAttribute("listposts"); %>
+			<c:forEach var="post" items="${posts}">
 				<tr>
 					<td><c:out value="${post.id}" /></td>
 					<td><c:out value="${post.title}" /></td>

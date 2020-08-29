@@ -24,12 +24,22 @@
         </servlet-mapping>
 
     <servlet>
-        <servlet-name>ControllerServlet</servlet-name>
-        <servlet-class>com.emysilva.controller.post.ControllerServlet</servlet-class>
+        <servlet-name>AddServlet</servlet-name>
+        <servlet-class>com.emysilva.controller.post.AddServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
+        <servlet-name>AddServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ListServlet</servlet-name>
+        <servlet-class>com.emysilva.controller.post.ListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ListServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 

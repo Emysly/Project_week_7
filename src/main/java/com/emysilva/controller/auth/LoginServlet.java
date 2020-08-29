@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 		if (user.isValid()) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("currentSessionUser",user);
-			request.getRequestDispatcher("/WEB-INF/views/auth/userdashboard.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/post/listposts.jsp").forward(request, response);
 		} else {
 			request.setAttribute("loginErrorMessage", "Invalid user or password");
 			request.getRequestDispatcher("/WEB-INF/views/auth/userlogin.jsp").forward(request, response);

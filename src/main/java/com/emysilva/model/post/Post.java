@@ -6,8 +6,6 @@ public class Post {
 	private String message;
 	private String email;
 	private String username;
-	private int likes;
-	private int dislikes;
 
 	public Post(String title, String message, String email, String username) {
 		this.title = title;
@@ -68,19 +66,4 @@ public class Post {
 		this.username = username;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	public int getDislikes() {
-		return dislikes;
-	}
-
-	public void setDislikes(int dislikes) {
-		this.dislikes = dislikes;
-	}
 }

@@ -1,6 +1,5 @@
-<%@ page import="java.util.List" %>
 <%@ page import="com.emysilva.model.post.Post" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -11,6 +10,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
+	<%
+		List<Post> posts =
+				(List<Post>) request.getAttribute("listPosts");
+	%>
 <body>
 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
 	<strong>User login successfully</strong>
@@ -23,36 +26,36 @@
 	<div>
 		<h1>List Posts</h1>
 	</div>
-	<div>
-		<a href="/new">Add New Post</a>
-		&nbsp;&nbsp;&nbsp;
-		<a href="/list">List All Posts</a>
-	</div>
+<%--	<div>--%>
+<%--		<a href="/new">Add New Post</a>--%>
+<%--		&nbsp;&nbsp;&nbsp;--%>
+<%--		<a href="/list">List All Posts</a>--%>
+<%--	</div>--%>
 	<div>
 		<button type="button" class="btn btn-outline-success m-3"><a href="${pageContext.request.contextPath}/add-post">Add Post</a></button>
+		<button type="button" class="btn btn-outline-info m-3"><a href="${pageContext.request.contextPath}/list-posts">List All Post</a></button>
 		<table class="table table-hover">
 			<thead>
 			<tr>
-				<th scope="col" width="5%">Id</th>
-				<th scope="col" width="60%">Title</th>
+				<th scope="col" style="width: 5%">Id</th>
+				<th scope="col" style="width: 60%">Title</th>
 				<th scope="col">Creator</th>
-				<th>Actions</th>
+				<th scope="col">Actions</th>
 			</tr>
 			</thead>
+			<% for (Post post: posts) { %>
+					<tr>
+						<td><%= post.getId() %></td>
+						<td><%= post.getTitle() %></td>
+						<td><%= post.getUsername() %></td>
+						<td>
+							<a href="/edit?id=<%= post.getId() %>">Edit</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="/delete?id=<%= post.getId() %>">Delete</a>
+						</td>
+					</tr>
+			<% } %>
 
-			<% List<Post> posts = request.getAttribute("listposts"); %>
-			<c:forEach var="post" items="${posts}">
-				<tr>
-					<td><c:out value="${post.id}" /></td>
-					<td><c:out value="${post.title}" /></td>
-					<td><c:out value="${post.username}" /></td>
-					<td>
-						<a href="/edit?id=<c:out value='${post.id}' />">Edit</a>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="/delete?id=<c:out value='${post.id}' />">Delete</a>
-					</td>
-				</tr>
-			</c:forEach>
 		</table>
 	</div>
 </div>

@@ -75,13 +75,12 @@ public class UserDao {
 				preparedStatement.setString(7, contact);
 
 				int i= preparedStatement.executeUpdate();
-
+				System.out.println(i);
 				if (i!=0)  //Just to ensure data has been inserted into the database
 					return "SUCCESS";
 //				errorMessage = "Oops.. User details already exist..!"; // On failure, send a message from here.
 			}
-			catch(SQLException e)
-			{
+			catch(SQLException e) {
 				e.printStackTrace();
 			}
 			return "Oops.. User details already exist..!";

@@ -83,5 +83,8 @@
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-interpolation:1.13" level="project" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="de43b1a09c" level="application" />
+    <orderEntry type="library" name="all" level="application" />
   </component>
 </module>

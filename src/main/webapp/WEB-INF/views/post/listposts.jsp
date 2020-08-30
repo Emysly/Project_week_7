@@ -8,6 +8,7 @@
 	<title>Dashboard</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
 <body>
 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -27,7 +28,7 @@
 <%--		<a href="/list">List All Posts</a>--%>
 <%--	</div>--%>
 	<div>
-		<a href="${pageContext.request.contextPath}/add-post" class="btn btn-outline-success m-3">Add Post</a>
+		<a href="${pageContext.request.contextPath}/add-post" class="btn btn-outline-success m-3"><i class="fas fa-plus"></i> Add Post</a>
 		<a href="${pageContext.request.contextPath}/list-posts" class="btn btn-outline-info m-3">List All Post</a>
 		<table class="table table-hover">
 			<thead>
@@ -61,13 +62,13 @@
 					<td>${post.title}</td>
 					<td>${post.username}</td>
 					<td>
-						<a href="${updateLink}">Update</a>
+						<a href="${updateLink}" data-toggle="tooltip" data-placement="top" title="Update"><i class="fas fa-edit"></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="${viewLink}">View</a>
+						<a href="${viewLink}" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye text-secondary"></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="${deleteLink}"
 						   onclick="if (!(confirm('Are you sure you want to delete this post?'))) return false">
-							Delete</a>
+							<i class="fas fa-minus-circle text-danger"  data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -80,5 +81,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 </body>
 </html>

@@ -35,7 +35,7 @@
 
 		<input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Send" />
 	</form>
-	<p>
+	<p class="m-5">
 		<a href="${pageContext.request.contextPath}/list">Back to List</a>
 	</p>
 </div>

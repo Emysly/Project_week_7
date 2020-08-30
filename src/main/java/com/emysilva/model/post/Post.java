@@ -70,4 +70,14 @@ public class Post {
 		this.username = username;
 	}
 
+	@Override
+	public String toString() {
+		return "Post{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", message='" + message + '\'' +
+				", email='" + email + '\'' +
+				", username='" + username + '\'' +
+				'}';
+	}
 }

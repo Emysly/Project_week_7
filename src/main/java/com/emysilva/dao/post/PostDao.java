@@ -174,9 +174,9 @@ public class PostDao {
 	public void updatePost(Post post) throws SQLException {
 		PreparedStatement statement = null;
 		try {
-			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
-
 			connect();
+
+			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
 
 			statement = jdbcConnection.prepareStatement(sql);
 
@@ -187,6 +187,8 @@ public class PostDao {
 			statement.setInt(5, post.getId());
 
 			statement.execute();
+
+			System.out.println(post.toString());
 		} finally {
 			close(null, statement);
 		}

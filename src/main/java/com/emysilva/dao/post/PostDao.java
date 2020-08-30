@@ -149,31 +149,50 @@ public class PostDao {
 				}
 	}
 
-//	public void deletePost(Post post) throws SQLException {
-//		String sql = "DELETE FROM post where id = ?";
-//
-//		connect();
-//
-//		PreparedStatement preparedStatement = jdbcConnection.prepareStatement(sql);
-//		preparedStatement.setString(1, post.getEmail());
-//
-//		preparedStatement.close();
-//		disconnect();
-//	}
-//
-	public void updatePost(Post post) throws SQLException {
-		String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
+	public void deletePost(String id) throws SQLException {
+		PreparedStatement preparedStatement = null;
+
+		try {
+
+		int postId = Integer.parseInt(id);
 
 		connect();
 
-		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-		statement.setString(1, post.getTitle());
-		statement.setString(2, post.getUsername());
-		statement.setString(3, post.getMessage());
+		String sql = "DELETE FROM post where id = ?";
 
-		statement.close();
-		disconnect();
+
+		preparedStatement = jdbcConnection.prepareStatement(sql);
+		preparedStatement.setInt(1, postId);
+
+		preparedStatement.execute();
+
+		} finally {
+			close(null, preparedStatement);
+		}
 	}
+
+	public void updatePost(Post post) throws SQLException {
+		PreparedStatement statement = null;
+		try {
+			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
+
+			connect();
+
+			statement = jdbcConnection.prepareStatement(sql);
+
+			statement.setString(1, post.getTitle());
+			statement.setString(2, post.getMessage());
+			statement.setString(3, post.getEmail());
+			statement.setString(4, post.getUsername());
+			statement.setInt(5, post.getId());
+
+			statement.execute();
+		} finally {
+			close(null, statement);
+		}
+
+	}
+
 
 	public Post getPost(String id) throws Exception {
 

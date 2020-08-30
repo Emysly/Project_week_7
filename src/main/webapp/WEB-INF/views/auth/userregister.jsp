@@ -38,6 +38,9 @@
 
       <input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Register" />
   </form>
+     <p class="m-5">
+         already a member? <a href="${pageContext.request.contextPath}/login">Log In</a>
+     </p>
  </div>
 </body>
 </html>

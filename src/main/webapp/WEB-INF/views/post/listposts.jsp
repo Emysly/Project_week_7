@@ -27,8 +27,8 @@
 <%--		<a href="/list">List All Posts</a>--%>
 <%--	</div>--%>
 	<div>
-		<button type="button" class="btn btn-outline-success m-3"><a href="${pageContext.request.contextPath}/add-post">Add Post</a></button>
-		<button type="button" class="btn btn-outline-info m-3"><a href="${pageContext.request.contextPath}/list-posts">List All Post</a></button>
+		<a href="${pageContext.request.contextPath}/add-post" class="btn btn-outline-success m-3">Add Post</a>
+		<a href="${pageContext.request.contextPath}/list-posts" class="btn btn-outline-info m-3">List All Post</a>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -40,8 +40,19 @@
 			</thead>
 			<c:forEach var="post" items="${listPosts}">
 
-				<c:url var="link" value="/get">
+				<c:url var="updateLink" value="GetServlet">
 					<c:param name="command" value="LOAD" />
+					<c:param name="postId" value="${post.id}" />
+				</c:url>
+
+				<c:url var="viewLink" value="GetServlet">
+					<c:param name="command" value="VIEW" />
+					<c:param name="postId" value="${post.id}" />
+				</c:url>
+
+				<!--  set up a link to delete a student -->
+				<c:url var="deleteLink" value="GetServlet">
+					<c:param name="command" value="DELETE" />
 					<c:param name="postId" value="${post.id}" />
 				</c:url>
 
@@ -50,11 +61,13 @@
 					<td>${post.title}</td>
 					<td>${post.username}</td>
 					<td>
-						<a href="${link}">Update</a>
+						<a href="${updateLink}">Update</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="/view/<c:out value="${post.id}"/>">View</a>
+						<a href="${viewLink}">View</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="/delete/<c:out value="${post.id}"/>">Delete</a>
+						<a href="${deleteLink}"
+						   onclick="if (!(confirm('Are you sure you want to delete this post?'))) return false">
+							Delete</a>
 					</td>
 				</tr>
 			</c:forEach>

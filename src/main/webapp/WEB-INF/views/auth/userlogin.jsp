@@ -24,6 +24,9 @@
 
 		<input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Login" />
 	</form>
+	<p class="m-5">
+		not a member yet? <a href="${pageContext.request.contextPath}/register">Sign Up</a>
+	</p>
 </div>
 </body>
 </html>

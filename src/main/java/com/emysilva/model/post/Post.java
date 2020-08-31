@@ -6,6 +6,8 @@ public class Post {
 	private String message;
 	private String email;
 	private String username;
+	private int likePost = 0;
+	private int dislikePost = 0;
 
 	public Post(String title, String message, String email, String username) {
 		this.title = title;
@@ -28,6 +30,16 @@ public class Post {
 
 	public Post() {
 
+	}
+
+	public Post(String title, String message, String email, String username, int likePost, int dislikePost) {
+		this.likePost = likePost;
+		this.dislikePost = dislikePost;
+		this.id = id;
+		this.title = title;
+		this.message = message;
+		this.email = email;
+		this.username = username;
 	}
 
 	public int getId() {
@@ -70,6 +82,22 @@ public class Post {
 		this.username = username;
 	}
 
+	public int getLikePost() {
+		return likePost;
+	}
+
+	public void setLikePost(int likePost) {
+		this.likePost = likePost;
+	}
+
+	public int getDislikePost() {
+		return dislikePost;
+	}
+
+	public void setDislikePost(int dislikePost) {
+		this.dislikePost = dislikePost;
+	}
+
 	@Override
 	public String toString() {
 		return "Post{" +
@@ -78,6 +106,8 @@ public class Post {
 				", message='" + message + '\'' +
 				", email='" + email + '\'' +
 				", username='" + username + '\'' +
+				", likePost=" + likePost +
+				", dislikePost=" + dislikePost +
 				'}';
 	}
 }

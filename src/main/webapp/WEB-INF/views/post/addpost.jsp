@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container p-5">
-	<h1 class="mt-5 text-center text-secondary">Add Post</h1>
+	<h1 class="mt-5 text-center text-primary">Add Post</h1>
 	<form action="<%= request.getContextPath() %>/add-post" method="post" class="container px-5">
 		<%
 			String errorMessage;
@@ -33,11 +33,22 @@
 		<label class="mt-3" for="message">Message</label>
 		<textarea type="text" class="form-control" id="message" name="message">Enter message...</textarea>
 
-		<input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Send" />
+		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>
 	<p class="m-5">
 		<a href="${pageContext.request.contextPath}/list">Back to List</a>
 	</p>
 </div>
+<script>
+    function preventBack(){
+        window.history.forward();
+    }
+
+    setTimeout("preventBack()", 0);
+
+    window.onunload=function(){
+        null
+    };
+</script>
 </body>
 </html>

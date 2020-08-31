@@ -1,8 +1,6 @@
 package com.emysilva.controller.post;
 
-import com.emysilva.dao.auth.UserDao;
 import com.emysilva.dao.post.PostDao;
-import com.emysilva.model.auth.User;
 import com.emysilva.model.post.Post;
 
 import javax.servlet.ServletException;
@@ -22,24 +20,25 @@ public class AddServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/post/addpost.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		//Copying all the input parameters in to local variables
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+		//Copying all the input parameters in to local variables
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
 		String message = request.getParameter("message");
 		String title = request.getParameter("title");
 
-
+		//create a new object
 		Post post = new Post(title, message, email, username);
 
 		try {
+			//add the new object to the database
 			postDao.addPost(post);
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-
-			response.sendRedirect("/list");
+		// send them back to "list posts" page
+		response.sendRedirect("/list");
 
 	}
 }

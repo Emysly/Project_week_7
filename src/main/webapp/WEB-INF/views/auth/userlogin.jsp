@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container p-5">
-	<h1 class="mt-5 text-center text-secondary">Login</h1>
+	<h1 class="mt-5 text-center text-primary">Login</h1>
 	<form action="<%= request.getContextPath() %>/login" method="post" class="container px-5">
 		<%
 			String loginErrorMessage;
@@ -22,11 +22,23 @@
 		<label class="mt-3" for="password">Password</label>
 		<input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
 
-		<input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Login" />
+		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Login" />
 	</form>
 	<p class="m-5">
 		not a member yet? <a href="${pageContext.request.contextPath}/register">Sign Up</a>
 	</p>
 </div>
+
+<script>
+    function preventBack(){
+        window.history.forward();
+    }
+
+    setTimeout("preventBack()", 0);
+
+    window.onunload=function(){
+        null
+    };
+</script>
 </body>
 </html>

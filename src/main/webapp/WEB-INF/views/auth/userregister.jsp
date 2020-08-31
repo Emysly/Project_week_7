@@ -8,7 +8,7 @@
 </head>
 <body>
  <div class="container p-5">
-  <h1 class="mt-5 text-center text-secondary">Register</h1>
+  <h1 class="mt-5 text-center text-primary">Register</h1>
   <form action="<%= request.getContextPath() %>/register" method="post" class="container px-5">
       <%
           String errorMessage;
@@ -36,7 +36,7 @@
       <label class="mt-3" for="conf-password">Confirm Password</label>
       <input type="password" class="form-control" id="conf-password" placeholder="Repeat password" name="conf-password">
 
-      <input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Register" />
+      <input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Register" />
   </form>
      <p class="m-5">
          already a member? <a href="${pageContext.request.contextPath}/login">Log In</a>

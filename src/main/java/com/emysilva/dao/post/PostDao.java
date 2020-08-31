@@ -1,10 +1,7 @@
 package com.emysilva.dao.post;
 
-import com.emysilva.model.auth.User;
 import com.emysilva.model.post.Post;
 
-import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +22,7 @@ public class PostDao {
 
 	}
 
+	//set up connection of the database
 	protected void connect() throws SQLException {
 		if (jdbcConnection == null || jdbcConnection.isClosed()) {
 			try {
@@ -37,6 +35,7 @@ public class PostDao {
 		}
 	}
 
+	//set up disconnection of the database
 	protected void disconnect() throws SQLException {
 		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
 			jdbcConnection.close();
@@ -107,15 +106,18 @@ public class PostDao {
 
 		try {
 
+			//connect to database
 			connect();
 
 			String sql = "SELECT * FROM post";
 
+			//create statement
 			statement = jdbcConnection.createStatement();
 
+			//execute query
 			resultSet = statement.executeQuery(sql);
 
-
+			//get all data from the database
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String email = resultSet.getString("email");
@@ -123,8 +125,10 @@ public class PostDao {
 				String username = resultSet.getString("username");
 				String message = resultSet.getString("message");
 
+				//create a new object with the data
 				Post post = new Post(id, title, message, email, username);
 
+				//add the object to the list of objects
 				listPost.add(post);
 			}
 
@@ -180,6 +184,7 @@ public class PostDao {
 
 			statement = jdbcConnection.prepareStatement(sql);
 
+			//add the updated data to database
 			statement.setString(1, post.getTitle());
 			statement.setString(2, post.getMessage());
 			statement.setString(3, post.getEmail());
@@ -213,12 +218,14 @@ public class PostDao {
 
 			resultSet = statement.executeQuery();
 
+			//get all the data associated to the post that is found
 			if (resultSet.next()) {
 				String title = resultSet.getString("title");
 				String email = resultSet.getString("email");
 				String username = resultSet.getString("username");
 				String message = resultSet.getString("message");
 
+				//create a new object with the data
 				post = new Post(postId, title, message, email, username);
 			} else {
 				throw new Exception("Could not find post with id: " + postId);
@@ -228,5 +235,23 @@ public class PostDao {
 			close(resultSet, statement);
 		}
 	}
+
+	public void addLike(Post post) throws SQLException {
+
+		int like = post.getLikePost();
+
+		post.setLikePost(like + 1);
+
+	}
+
+	public void addDislike(Post post) throws SQLException {
+
+		int dislike = post.getDislikePost();
+
+		post.setDislikePost(dislike + 1);
+
+	}
+
+
 
 }

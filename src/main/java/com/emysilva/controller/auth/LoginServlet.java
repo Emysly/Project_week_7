@@ -1,6 +1,7 @@
 package com.emysilva.controller.auth;
 
 import com.emysilva.dao.auth.UserDao;
+import com.emysilva.dao.post.PostDao;
 import com.emysilva.model.auth.User;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,13 @@ import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+	UserDao userDao;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		userDao = new UserDao("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/auth/userlogin.jsp").forward(request, response);
@@ -29,11 +37,12 @@ public class LoginServlet extends HttpServlet {
 		user.setPassword(request.getParameter("password"));
 
 		try {
-			UserDao.login(user);
+			userDao.login(user);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 
+		//if user is a registered user or not
 		if (user.isValid()) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("currentSessionUser",user);

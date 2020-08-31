@@ -5,7 +5,41 @@ import com.emysilva.model.auth.User;
 import java.sql.*;
 
 public class UserDao {
-	public UserDao() {}
+	private String jdbcURL;
+	private String jdbcUsername;
+	private String jdbcPassword;
+	private Connection jdbcConnection;
+
+	public UserDao(String jdbcURL, String jdbcUsername, String jdbcPassword) {
+		this.jdbcURL = jdbcURL;
+		this.jdbcUsername = jdbcUsername;
+		this.jdbcPassword = jdbcPassword;
+	}
+
+	public UserDao() {
+
+	}
+
+	//set up connection of the database
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(
+					jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	//set up disconnection of the database
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+
 
 	public String registerUser(User userbean) throws ClassNotFoundException {
 		String email, firstname, lastname, username, password, confpassword,
@@ -55,17 +89,16 @@ public class UserDao {
 			return "User contact must be provided";
 		}
 
-			Connection con;
-			PreparedStatement preparedStatement;
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			try
 			{
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
+				connect();
 
-				String query = "insert into user(email, firstname, lastname, username, password, confpassword, contact) values (?, ?, ?, ?, ?, ?, ?)"; //Insert user details into the table 'USERS'
-				preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
+				//Insert user details into the table 'user'
+				String query = "insert into user(email, firstname, lastname, username, password, confpassword, contact) values (?, ?, ?, ?, ?, ?, ?)";
+
+				//Making use of prepared statements here to insert bunch of data
+				PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query);
 				preparedStatement.setString(1, email);
 				preparedStatement.setString(2, firstname);
 				preparedStatement.setString(3, lastname);
@@ -76,7 +109,9 @@ public class UserDao {
 
 				int i= preparedStatement.executeUpdate();
 				System.out.println(i);
-				if (i!=0)  //Just to ensure data has been inserted into the database
+
+				//Just to ensure data has been inserted into the database
+				if (i!=0)
 					return "SUCCESS";
 //				errorMessage = "Oops.. User details already exist..!"; // On failure, send a message from here.
 			}
@@ -87,12 +122,11 @@ public class UserDao {
 
 	}
 
-	public static String login(User user) throws ClassNotFoundException, SQLException {
+	public String login(User user) throws ClassNotFoundException, SQLException {
 
 		//preparing some objects for connection
-		Statement stmt = null;
-		Connection currentCon = null;
-		ResultSet rs = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
 
 		String email = user.getEmail();
 		String password = user.getPassword();
@@ -109,20 +143,22 @@ public class UserDao {
 		System.out.println("Your password is " + password);
 		System.out.println("Query: "+searchQuery);
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
 		try
 		{
 			//connect to DB
-			currentCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-			stmt = currentCon.createStatement();
-			rs = stmt.executeQuery(searchQuery);
-//			boolean more = rs.next();
+			connect();
 
-			if(rs.next())
+			//create a statement
+			statement = jdbcConnection.createStatement();
+
+			//execute query
+			resultSet = statement.executeQuery(searchQuery);
+
+			if(resultSet.next())
 			{
-				user.setValid((email.equals(rs.getString("email")))
-						&& (password.equals(rs.getString("password"))));
+				//checks if the email and password is valid
+				user.setValid((email.equalsIgnoreCase(resultSet.getString("email")))
+						&& (password.equals(resultSet.getString("password"))));
 
 			// if user does not exist set the isValid variable to false
 //			if (!more)
@@ -144,34 +180,32 @@ public class UserDao {
 			}
 		}
 
+		//some exception handling
 		catch (Exception ex)
 		{
 			System.out.println("Log In failed: An Exception has occurred! " + ex);
 		}
 
-		//some exception handling
+		//close all the objects for connection
 		finally {
-			if (rs != null)	{
-				try {
-					rs.close();
-				} catch (Exception ignored) {}
-			}
+			close(resultSet, statement);
 
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (Exception ignored) {}
-			}
-
-			if (currentCon != null) {
-				try {
-					currentCon.close();
-				} catch (Exception ignored) {
-				}
-			}
 		}
 		return "";
 
+	}
+
+	private void close(ResultSet resultSet, Statement statement) {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		} catch (Exception throwables) {
+			throwables.printStackTrace();
+		}
 	}
 
 }

@@ -31,7 +31,7 @@
 		<input type="text" class="form-control" id="title" placeholder="Enter post title" name="title">
 
 		<label class="mt-3" for="message">Message</label>
-		<textarea type="text" class="form-control" id="message" name="message">Enter message...</textarea>
+		<textarea type="text" class="form-control" id="message" name="message"></textarea>
 
 		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>

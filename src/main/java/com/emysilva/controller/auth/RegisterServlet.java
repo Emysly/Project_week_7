@@ -1,6 +1,7 @@
 package com.emysilva.controller.auth;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
 		String userRegistered = null;
 		try {
 			userRegistered = userDao.registerUser(userBean);
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 

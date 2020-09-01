@@ -83,21 +83,21 @@
 					<td>
 						<a href="${updateLink}" data-toggle="tooltip" data-placement="top" title="Update"><i class="fas fa-edit"></i></a>
 						&nbsp;&nbsp;&nbsp;
-						<a href="${viewLink}" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye text-secondary"></i></a>
+						<a href="${viewLink}" data-toggle="tooltip" data-placement="top" title="Comment"><i class="fas fa-comment-dots text-secondary"></i></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="${deleteLink}"
 						   onclick="if (!(confirm('Are you sure you want to delete this post?'))) return false">
 							<i class="fas fa-minus-circle text-danger"  data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-<%--						<a href="${likeLink}" data-toggle="tooltip" data-placement="top" title="Like" name="like"><i class="far fa-thumbs-up">${likeCount.like}</i></a>--%>
-<%--						&nbsp;&nbsp;&nbsp;&nbsp;--%>
-<%--						<a href="${dislikeLink}" data-toggle="tooltip" data-placement="top" title="Dislike" name="dislike"><i class="far fa-thumbs-down">${dislikeCount.dislike}</i></a>--%>
-						<button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Like" name="like">
-							Like
-						</button>
-						<button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Dislike" name="dislike">
-							Dislike
-						</button>
+						<a data-toggle="tooltip" data-placement="top" title="Like" class="like" onclick="like()"><i class="far fa-thumbs-up"><span class="count"></span></i></a>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a data-toggle="tooltip" data-placement="top" title="Unlike" class="dislike" onclick="dislike()"><i class="far fa-thumbs-down"><span class="discount"></span></i></a>
+<%--						<button type="button" class="like btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Like" name="like" onclick="like()">--%>
+<%--							Like--%>
+<%--						</button>--%>
+<%--						<button type="button" class="dislike btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Dislike" name="dislike" onclick="dislike()">--%>
+<%--							Dislike--%>
+<%--						</button>--%>
 					</td>
 				</tr>
 			</c:forEach>
@@ -140,6 +140,23 @@
     // }
 
 
+    let count = 1;
+    let discount = 1;
+    function like() {
+        document.querySelector(".dislike").style.cursor = "pointer";
+        document.querySelector(".like").style.cursor = "pointer";
+        document.querySelector(".dislike").style.color = "black";
+        document.querySelector(".like").style.color = "red";
+        document.querySelector(".count").textContent = count++;
+    }
+
+    function dislike() {
+        document.querySelector(".dislike").style.cursor = "pointer";
+        document.querySelector(".like").style.cursor = "pointer";
+        document.querySelector(".like").style.color = "black";
+        document.querySelector(".dislike").style.color = "red";
+        document.querySelector(".discount").textContent = discount++;
+    }
 
 </script>
 </body>

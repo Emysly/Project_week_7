@@ -7,6 +7,9 @@
 
 </head>
 <body>
+<nav class="navbar navbar-light bg-primary">
+	<span class="navbar-brand mb-0 h1 text-white">Facebook App</span>
+</nav>
 <div class="container p-5">
 	<h1 class="mt-5 text-center text-primary">Login</h1>
 	<form action="<%= request.getContextPath() %>/login" method="post" class="container px-5">

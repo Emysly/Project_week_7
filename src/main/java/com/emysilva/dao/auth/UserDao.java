@@ -41,7 +41,8 @@ public class UserDao {
 	}
 
 
-	public String registerUser(User userbean) throws ClassNotFoundException {
+	public String registerUser(User userbean) throws ClassNotFoundException, SQLException {
+
 		String email, firstname, lastname, username, password, confpassword,
 				contact;
 		if (!userbean.getEmail().equals("")) {
@@ -89,7 +90,6 @@ public class UserDao {
 			return "User contact must be provided";
 		}
 
-
 			try
 			{
 				connect();
@@ -108,7 +108,6 @@ public class UserDao {
 				preparedStatement.setString(7, contact);
 
 				int i= preparedStatement.executeUpdate();
-				System.out.println(i);
 
 				//Just to ensure data has been inserted into the database
 				if (i!=0)

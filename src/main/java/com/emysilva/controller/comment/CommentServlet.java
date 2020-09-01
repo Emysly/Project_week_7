@@ -111,6 +111,7 @@ public class CommentServlet extends HttpServlet {
 			// get comment from database (db util)
 			Comment comment = commentDao.getComment(commentId);
 
+			request.setAttribute("comment", comment);
 
 			// send to jsp page: updatecomment.jsp
 			RequestDispatcher dispatcher =

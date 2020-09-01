@@ -3,7 +3,6 @@ package com.emysilva.controller.post;
 import com.emysilva.dao.post.PostDao;
 import com.emysilva.model.post.Post;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -127,11 +126,13 @@ public class GetServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("postId"));
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
-		String title = request.getParameter("title");
 		String message = request.getParameter("message");
+		String title = request.getParameter("title");
 
 		// create a new post object
 		Post post = new Post(id, title, message, email, username);
+
+		request.setAttribute("post", post);
 
 		System.out.println(post.toString());
 

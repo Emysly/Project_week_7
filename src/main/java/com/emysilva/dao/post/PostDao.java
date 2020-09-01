@@ -73,16 +73,16 @@ public class PostDao {
 //			return "Post message must be provided";
 //		}
 
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
 
-			String query = "insert into post(email, title, message, username) values (?, ?, ?, ?)"; //Insert user details into the table 'USERS'
+		String query = "insert into post(email, title, message, username) values (?, ?, ?, ?)"; //Insert user details into the table 'USERS'
 //			connect();
 
-			PreparedStatement preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, title);
-			preparedStatement.setString(3, message);
-			preparedStatement.setString(4, username);
+		PreparedStatement preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, title);
+		preparedStatement.setString(3, message);
+		preparedStatement.setString(4, username);
 
 //			System.out.println(i);
 //			preparedStatement.close();
@@ -90,10 +90,10 @@ public class PostDao {
 //				return "SUCCESS";
 //				errorMessage = "Oops.. User details already exist..!"; // On failure, send a message from here.
 //			return "";
-			boolean rowInserted = preparedStatement.executeUpdate() > 0;
-			preparedStatement.close();
-			disconnect();
-			return rowInserted;
+		boolean rowInserted = preparedStatement.executeUpdate() > 0;
+		preparedStatement.close();
+		disconnect();
+		return rowInserted;
 	}
 //		return "Oops.. Post details already exist..!";
 
@@ -141,16 +141,16 @@ public class PostDao {
 	}
 
 	private void close(ResultSet resultSet, Statement statement) {
-			try {
-				if (resultSet != null) {
-					resultSet.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-				} catch (Exception throwables) {
-					throwables.printStackTrace();
-				}
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+		} catch (Exception throwables) {
+			throwables.printStackTrace();
+		}
 	}
 
 	public void deletePost(String id) throws SQLException {
@@ -158,17 +158,17 @@ public class PostDao {
 
 		try {
 
-		int postId = Integer.parseInt(id);
+			int postId = Integer.parseInt(id);
 
-		connect();
+			connect();
 
-		String sql = "DELETE FROM post where id = ?";
+			String sql = "DELETE FROM post where id = ?";
 
 
-		preparedStatement = jdbcConnection.prepareStatement(sql);
-		preparedStatement.setInt(1, postId);
+			preparedStatement = jdbcConnection.prepareStatement(sql);
+			preparedStatement.setInt(1, postId);
 
-		preparedStatement.execute();
+			preparedStatement.execute();
 
 		} finally {
 			close(null, preparedStatement);

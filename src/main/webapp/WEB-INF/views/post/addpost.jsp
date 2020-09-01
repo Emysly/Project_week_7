@@ -13,6 +13,14 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
+<nav class="navbar navbar-light bg-primary">
+	<span class="navbar-brand mb-0 h1 text-white">Facebook App</span>
+	<div class="d-flex justify-content-end">
+		<div>
+			<a href="${pageContext.request.contextPath}/login" class="btn btn-outline-light bg-primary text-white">Log Out</a>
+		</div>
+	</div>
+</nav>
 <div class="container p-5">
 	<h1 class="mt-5 text-center text-primary">Add Post</h1>
 	<form action="<%= request.getContextPath() %>/add-post" method="post" class="container px-5">

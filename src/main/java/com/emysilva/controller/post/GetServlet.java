@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet("/GetServlet")
@@ -127,8 +129,12 @@ public class GetServlet extends HttpServlet {
 		String message = request.getParameter("message");
 		String title = request.getParameter("title");
 
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String formatDateTime = now.format(format);
+
 		// create a new post object
-		Post post = new Post(id, title, message, email, username);
+		Post post = new Post(id, title, message, email, username, formatDateTime);
 
 		request.setAttribute("post", post);
 

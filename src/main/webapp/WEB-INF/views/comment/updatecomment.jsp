@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: emysilva
@@ -29,6 +30,12 @@
 
 		<input type="hidden" name="commentId" value="${comment.id}"/>
 
+		<!--  set up a link to view a post -->
+		<c:url var="viewLink" value="GetServlet">
+			<c:param name="command" value="VIEW" />
+			<c:param name="postId" value="${comment.id}" />
+		</c:url>
+
 		<%
 			String errorMessage;
 			errorMessage = request.getAttribute("errorMessage") != null ? (String) request.getAttribute("errorMessage") : "";
@@ -46,7 +53,7 @@
 		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>
 	<p class="m-5">
-		<a href="${pageContext.request.contextPath}/list-comments">Back to View</a>
+		<a href="${viewLink}">Back to View</a>
 	</p>
 </div>
 </body>

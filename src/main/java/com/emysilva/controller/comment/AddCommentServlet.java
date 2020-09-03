@@ -38,13 +38,15 @@ public class AddCommentServlet extends HttpServlet {
 		//create a new object
 		Comment comment = new Comment(email, message, username, formatDateTime, 0, 0);
 
+		request.setAttribute("comment", comment);
+
 		try {
 			//add the new object to the database
 			commentDao.addComment(comment);
 		} catch (SQLException | ClassNotFoundException throwables) {
 			throwables.printStackTrace();
 		}
-		// send them back to "list comments" page
+		// send them back to "list views" page
 		response.sendRedirect("/list-comments");
 
 	}

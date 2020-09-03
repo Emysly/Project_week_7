@@ -68,6 +68,7 @@ public class CommentServlet extends HttpServlet {
 						
 					case "UNLIKE":
 						unlikeComment(request, response);
+						break;
 
 					default:
 						listComments(request, response);

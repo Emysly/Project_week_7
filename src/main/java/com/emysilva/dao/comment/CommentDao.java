@@ -103,8 +103,7 @@ public class CommentDao {
 
 
 				while (resultSet.next()) {
-					int comment_id = resultSet.getInt("comment_id");
-					int post_id = resultSet.getInt("post_id");
+					int id = resultSet.getInt("comment_id");
 					String email = resultSet.getString("email");
 					String message = resultSet.getString("message");
 					String username = resultSet.getString("username");
@@ -112,7 +111,7 @@ public class CommentDao {
 					int likes = resultSet.getInt("likePost");
 					int dislikes = resultSet.getInt("dislikePost");
 
-					Comment comment = new Comment(comment_id, post_id, email, message, username, createdAt, likes, dislikes);
+					Comment comment = new Comment(id, email, message, username, createdAt, likes, dislikes);
 
 					listComment.add(comment);
 				}
@@ -163,8 +162,8 @@ public class CommentDao {
 				statement.setString(1, comment.getEmail());
 				statement.setString(2, comment.getMessage());
 				statement.setString(3, comment.getUsername());
-				statement.setInt(4, comment.getId());
-				statement.setString(5, formatDateTime);
+				statement.setString(4, formatDateTime);
+				statement.setInt(5, comment.getId());
 
 				statement.execute();
 

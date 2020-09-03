@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Comment {
 	private int id;
-	private int post_id;
 	private String email;
 	private String username;
 	private String message;
@@ -13,16 +12,6 @@ public class Comment {
 	private int dislikePost;
 
 
-	public Comment(int comment_id, int post_id, String email, String username, String message, String createdAt, int likePost, int dislikePost) {
-		this.id = comment_id;
-		this.post_id = post_id;
-		this.email = email;
-		this.username = username;
-		this.message = message;
-		this.createdAt = createdAt;
-		this.likePost = likePost;
-		this.dislikePost = dislikePost;
-	}
 	public Comment(int id, String email, String message, String username, String createdAt, int like, int unlike) {
 		this.id = id;
 		this.email = email;
@@ -56,14 +45,6 @@ public class Comment {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getPost_id() {
-		return post_id;
-	}
-
-	public void setPost_id(int post_id) {
-		this.post_id = post_id;
 	}
 
 	public String getEmail() {

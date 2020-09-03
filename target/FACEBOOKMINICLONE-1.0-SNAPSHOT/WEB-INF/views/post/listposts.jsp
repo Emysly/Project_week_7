@@ -92,12 +92,7 @@
 						<a data-toggle="tooltip" data-placement="top" title="Like" href="${likeLink}"><i class="far fa-thumbs-up">${post.likePost}</i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a data-toggle="tooltip" data-placement="top" title="Unlike" href="${dislikeLink}"><i class="far fa-thumbs-down">${post.dislikePost}</i></a>
-<%--						<button type="button" class="like btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Like" name="like" onclick="like()">--%>
-<%--							Like--%>
-<%--						</button>--%>
-<%--						<button type="button" class="dislike btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Dislike" name="dislike" onclick="dislike()">--%>
-<%--							Dislike--%>
-<%--						</button>--%>
+
 					</td>
 				</tr>
 			</c:forEach>
@@ -105,7 +100,6 @@
 		</table>
 	</div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -123,27 +117,6 @@
     window.onunload=function(){
         null
     };
-
-
-
-    let count = 1;
-    let discount = 1;
-
-    document.querySelector(".like").style.cursor = "pointer";
-    document.querySelector(".dislike").style.cursor = "pointer";
-    function like() {
-        document.querySelector(".like").style.cursor = "pointer";
-        document.querySelector(".dislike").style.color = "black";
-        document.querySelector(".like").style.color = "red";
-        document.querySelector(".count").textContent = count++;
-    }
-
-    function dislike() {
-        document.querySelector(".dislike").style.cursor = "pointer";
-        document.querySelector(".like").style.color = "black";
-        document.querySelector(".dislike").style.color = "red";
-        document.querySelector(".discount").textContent = discount++;
-    }
 
 </script>
 </body>

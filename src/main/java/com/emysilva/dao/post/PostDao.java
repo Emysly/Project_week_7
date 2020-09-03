@@ -196,19 +196,16 @@ public class PostDao {
 
 			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ?, createdAt = ? WHERE id = ?";
 
-			LocalDateTime now = LocalDateTime.now();
-			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-			String formatDateTime = now.format(format);
 
 			statement = jdbcConnection.prepareStatement(sql);
 
 			//add the updated data to database
-			statement.setString(1, post.getTitle());
-			statement.setString(2, post.getMessage());
-			statement.setString(3, post.getEmail());
-			statement.setString(4, post.getUsername());
-			statement.setInt(5, post.getId());
-			statement.setString(6, formatDateTime);
+			statement.setString(1, post.getEmail());
+			statement.setString(2, post.getTitle());
+			statement.setString(3, post.getUsername());
+			statement.setString(4, post.getMessage());
+			statement.setString(5, post.getCreatedAt());
+			statement.setInt(6, post.getId());
 
 			statement.execute();
 

@@ -17,12 +17,13 @@ public class Post {
 		this.username = username;
 	}
 
-	public Post(int id, String title, String message, String email, String username) {
+	public Post(int id, String title, String message, String email, String username, String formatDateTime) {
 		this.id = id;
 		this.title = title;
 		this.message = message;
 		this.email = email;
 		this.username = username;
+		this.createdAt = formatDateTime;
 	}
 
 	public Post(int id, String title, String message, String email, String username, String createdAt, int likePost, int dislikePost) {

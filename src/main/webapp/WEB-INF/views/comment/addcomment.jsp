@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: emysilva
@@ -24,7 +25,8 @@
 </nav>
 <div class="container p-5">
 	<h1 class="mt-5 text-center text-primary">Add Post</h1>
-	<form action="/add-comment" method="POST" class="container px-5">
+	<form action="${pageContext.request.contextPath}/add-comment" method="POST" class="container px-5">
+
 
 		<%
 			String errorMessage;
@@ -42,9 +44,6 @@
 
 		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>
-	<p class="m-5">
-		<a href="${pageContext.request.contextPath}/list-comments">Back to View</a>
-	</p>
 </div>
 </body>
 </html>

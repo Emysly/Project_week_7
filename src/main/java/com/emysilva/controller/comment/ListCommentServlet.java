@@ -14,15 +14,7 @@ public class ListCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//
 	CommentDao commentDao = new CommentDao("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
-//
-//	@Resource(name="jdbc/FACEBOOK_MINI_CLONE")
-//	private DataSource jdbcConnection;
 
-//	@Override
-//	public void init() throws ServletException {
-//		super.init();
-//		postDao = new PostDao(jdbcConnection);
-//	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {

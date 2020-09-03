@@ -6,8 +6,9 @@ public class Post {
 	private String message;
 	private String email;
 	private String username;
-	private int likePost = 0;
-	private int dislikePost = 0;
+	private String createdAt;
+	private int likePost;
+	private int dislikePost;
 
 	public Post(String title, String message, String email, String username) {
 		this.title = title;
@@ -24,6 +25,27 @@ public class Post {
 		this.username = username;
 	}
 
+	public Post(int id, String title, String message, String email, String username, String createdAt, int likePost, int dislikePost) {
+		this.id = id;
+		this.title = title;
+		this.message = message;
+		this.email = email;
+		this.username = username;
+		this.createdAt = createdAt;
+		this.likePost = likePost;
+		this.dislikePost = dislikePost;
+	}
+
+	public Post(String title, String message, String email, String username, String createdAt, int likePost, int dislikePost) {
+		this.title = title;
+		this.message = message;
+		this.email = email;
+		this.username = username;
+		this.createdAt = createdAt;
+		this.likePost = likePost;
+		this.dislikePost = dislikePost;
+	}
+
 	public Post(int id) {
 		this.id = id;
 	}
@@ -32,15 +54,6 @@ public class Post {
 
 	}
 
-	public Post(String title, String message, String email, String username, int likePost, int dislikePost) {
-		this.likePost = likePost;
-		this.dislikePost = dislikePost;
-		this.id = id;
-		this.title = title;
-		this.message = message;
-		this.email = email;
-		this.username = username;
-	}
 
 	public int getId() {
 		return id;
@@ -80,6 +93,14 @@ public class Post {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getLikePost() {

@@ -22,7 +22,7 @@
 	</div>
 </nav>
 <div class="container p-5">
-	<h1 class="mt-5 text-center text-secondary">Update Post</h1>
+	<h1 class="mt-5 text-center text-primary">Update Post</h1>
 	<form action="GetServlet" method="GET" class="container px-5">
 		<input type="hidden" name="command" value="UPDATE" />
 
@@ -45,10 +45,10 @@
 		<label class="mt-3" for="message">Message</label>
 		<textarea type="text" class="form-control" id="message" name="message">${post.message}</textarea>
 
-		<input type="submit" class="btn btn-block btn-outline-secondary p-2 mt-3" value="Send" />
+		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>
 	<p class="m-5">
-		<a href="${pageContext.request.contextPath}/list">Back to List</a>
+		<a href="${pageContext.request.contextPath}/list-posts">Back to List</a>
 	</p>
 </div>
 </body>

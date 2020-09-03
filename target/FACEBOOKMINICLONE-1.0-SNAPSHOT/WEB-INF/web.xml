@@ -23,25 +23,45 @@
             <url-pattern>/Login</url-pattern>
         </servlet-mapping>
 
-    <servlet>
-        <servlet-name>AddServlet</servlet-name>
-        <servlet-class>com.emysilva.controller.post.AddServlet</servlet-class>
-    </servlet>
+<!--    <servlet>-->
+<!--        <servlet-name>AddServlet</servlet-name>-->
+<!--        <servlet-class>com.emysilva.controller.post.AddServlet</servlet-class>-->
+<!--    </servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>AddServlet</servlet-name>
-        <url-pattern>/add</url-pattern>
-    </servlet-mapping>
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AddServlet</servlet-name>-->
+<!--        <url-pattern>/add</url-pattern>-->
+<!--    </servlet-mapping>-->
 
-    <servlet>
-        <servlet-name>ListServlet</servlet-name>
-        <servlet-class>com.emysilva.controller.post.ListServlet</servlet-class>
-    </servlet>
+<!--    <servlet>-->
+<!--        <servlet-name>ListServlet</servlet-name>-->
+<!--        <servlet-class>com.emysilva.controller.post.ListServlet</servlet-class>-->
+<!--    </servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>ListServlet</servlet-name>
-        <url-pattern>/list</url-pattern>
-    </servlet-mapping>
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>ListServlet</servlet-name>-->
+<!--        <url-pattern>/list</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AddCommentServlet</servlet-name>-->
+<!--        <servlet-class>com.emysilva.controller.comment.AddCommentServlet</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AddCommentServlet</servlet-name>-->
+<!--        <url-pattern>/add-comment</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>ListCommentServlet</servlet-name>-->
+<!--        <servlet-class>com.emysilva.controller.comment.ListCommentServlet</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>ListCommentServlet</servlet-name>-->
+<!--        <url-pattern>/List-comments</url-pattern>-->
+<!--    </servlet-mapping>-->
 
         <welcome-file-list>
             <welcome-file>/WEB-INF/views/auth/userlogin.jsp</welcome-file>

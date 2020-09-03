@@ -44,7 +44,7 @@
 		<input type="submit" class="btn btn-block btn-outline-primary p-2 mt-3" value="Send" />
 	</form>
 	<p class="m-5">
-		<a href="${pageContext.request.contextPath}/list">Back to List</a>
+		<a href="${pageContext.request.contextPath}/list-posts">Back to List</a>
 	</p>
 </div>
 <script>

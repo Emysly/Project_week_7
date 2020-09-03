@@ -2,6 +2,8 @@ package com.emysilva.controller.auth;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +17,12 @@ import com.emysilva.model.auth.User;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public void init() {
-		new UserDao();
+	UserDao userDao;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		userDao = new UserDao("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
 	}
 
 	public RegisterServlet() {
@@ -34,22 +40,16 @@ public class RegisterServlet extends HttpServlet {
 		String lastname = request.getParameter("lastname");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String confpassword = request.getParameter("conf-password");
+		String confPassword = request.getParameter("conf-password");
 		String contact = request.getParameter("contact");
 
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String formatDateTime = now.format(format);
 
-		User userBean = new User();
 
+		User userBean = new User(email, firstname, lastname, username, password, confPassword, contact, formatDateTime);
 
-		userBean.setEmail(email);
-		userBean.setFirstname(firstname);
-		userBean.setLastname(lastname);
-		userBean.setUsername(username);
-		userBean.setPassword(password);
-		userBean.setConfpassword(confpassword);
-		userBean.setContact(contact);
-
-		UserDao userDao = new UserDao();
 
 		//The core Logic of the Registration application is present here. We are going to insert user data in to the database.
 

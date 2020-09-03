@@ -8,7 +8,23 @@ public class User {
 	private String password;
 	private String confpassword;
 	private String contact;
+	private String createdAt;
 	private boolean valid;
+
+	public User(String email, String firstname, String lastname, String username, String password, String confpassword, String contact, String createdAt) {
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		this.confpassword = confpassword;
+		this.contact = contact;
+		this.createdAt = createdAt;
+	}
+
+	public User() {
+
+	}
 
 	public String getEmail() {
 		return email;
@@ -64,6 +80,14 @@ public class User {
 
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public boolean isValid() {

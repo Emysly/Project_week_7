@@ -1,8 +1,11 @@
 package com.emysilva.dao.post;
 
+import com.emysilva.model.post.LikeUnlike;
 import com.emysilva.model.post.Post;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +47,17 @@ public class PostDao {
 
 
 	public boolean addPost(Post post) throws SQLException {
-		String email, username, title, message;
+		String email, username, title, message, createdAt;
+		int likePost, dislikePost;
 
 		email = post.getEmail();
 		username = post.getUsername();
 		title = post.getTitle();
 		message = post.getMessage();
+		createdAt = post.getCreatedAt();
+		likePost = post.getLikePost();
+		dislikePost = post.getDislikePost();
+
 
 
 //		if (!post.getEmail().equals("")) {
@@ -75,7 +83,7 @@ public class PostDao {
 
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
 
-		String query = "insert into post(email, title, message, username) values (?, ?, ?, ?)"; //Insert user details into the table 'USERS'
+		String query = "insert into post(email, title, message, username, createdAt, likePost, dislikePost) values (?, ?, ?, ?, ?, ?, ?)"; //Insert user details into the table 'USERS'
 //			connect();
 
 		PreparedStatement preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
@@ -83,6 +91,9 @@ public class PostDao {
 		preparedStatement.setString(2, title);
 		preparedStatement.setString(3, message);
 		preparedStatement.setString(4, username);
+		preparedStatement.setString(5, createdAt);
+		preparedStatement.setInt(6, likePost);
+		preparedStatement.setInt(7, dislikePost);
 
 //			System.out.println(i);
 //			preparedStatement.close();
@@ -124,9 +135,12 @@ public class PostDao {
 				String title = resultSet.getString("title");
 				String username = resultSet.getString("username");
 				String message = resultSet.getString("message");
+				String createdAt = resultSet.getString("createdAt");
+				int like = resultSet.getInt("likePost");
+				int unlike = resultSet.getInt("dislikePost");
 
 				//create a new object with the data
-				Post post = new Post(id, title, message, email, username);
+				Post post = new Post(id, title, message, email, username, createdAt, like, unlike);
 
 				//add the object to the list of objects
 				listPost.add(post);
@@ -180,7 +194,11 @@ public class PostDao {
 		try {
 			connect();
 
-			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ? WHERE id = ?";
+			String sql = "UPDATE post SET email = ?, title = ?, username = ?, message = ?, createdAt = ? WHERE id = ?";
+
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			String formatDateTime = now.format(format);
 
 			statement = jdbcConnection.prepareStatement(sql);
 
@@ -190,6 +208,7 @@ public class PostDao {
 			statement.setString(3, post.getEmail());
 			statement.setString(4, post.getUsername());
 			statement.setInt(5, post.getId());
+			statement.setString(6, formatDateTime);
 
 			statement.execute();
 
@@ -224,9 +243,12 @@ public class PostDao {
 				String email = resultSet.getString("email");
 				String username = resultSet.getString("username");
 				String message = resultSet.getString("message");
+				String createdAt = resultSet.getString("createdAt");
+				int like = resultSet.getInt("likePost");
+				int unlike = resultSet.getInt("dislikePost");
 
 				//create a new object with the data
-				post = new Post(postId, title, message, email, username);
+				post = new Post(postId, title, message, email, username, createdAt, like, unlike);
 			} else {
 				throw new Exception("Could not find post with id: " + postId);
 			}
@@ -236,19 +258,55 @@ public class PostDao {
 		}
 	}
 
-	public void addLike(Post post) throws SQLException {
+	public void addLike(String id) throws SQLException {
 
-		int like = post.getLikePost();
+		PreparedStatement statement = null;
+		try {
 
-		post.setLikePost(like + 1);
+			int postId = Integer.parseInt(id);
+
+			connect();
+
+			String sql = "UPDATE post SET likePost = likePost + 1 WHERE id = ?";
+
+
+			statement = jdbcConnection.prepareStatement(sql);
+
+			//add the updated data to database
+
+			statement.setInt(1, postId);
+
+			statement.execute();
+
+		} finally {
+			close(null, statement);
+		}
 
 	}
 
-	public void addDislike(Post post) throws SQLException {
+	public void addDislike(String id) throws SQLException {
 
-		int dislike = post.getDislikePost();
+		PreparedStatement statement = null;
+		try {
 
-		post.setDislikePost(dislike + 1);
+			int postId = Integer.parseInt(id);
+
+			connect();
+
+			String sql = "UPDATE post SET dislikePost = dislikePost + 1 WHERE id = ?";
+
+
+			statement = jdbcConnection.prepareStatement(sql);
+
+			//add the updated data to database
+
+			statement.setInt(1, postId);
+
+			statement.execute();
+
+		} finally {
+			close(null, statement);
+		}
 
 	}
 

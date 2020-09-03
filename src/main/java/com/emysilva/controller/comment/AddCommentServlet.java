@@ -1,6 +1,8 @@
-package com.emysilva.controller.post;
+package com.emysilva.controller.comment;
 
+import com.emysilva.dao.comment.CommentDao;
 import com.emysilva.dao.post.PostDao;
+import com.emysilva.model.comment.Comment;
 import com.emysilva.model.post.Post;
 
 import javax.servlet.ServletException;
@@ -13,13 +15,13 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/add-post")
-public class AddServlet extends HttpServlet {
+@WebServlet("/add-comment")
+public class AddCommentServlet extends HttpServlet {
 
-	PostDao postDao = new PostDao();
+	CommentDao commentDao = new CommentDao();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/post/addpost.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/comment/addcomment.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -28,23 +30,22 @@ public class AddServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String username = request.getParameter("username");
 		String message = request.getParameter("message");
-		String title = request.getParameter("title");
 
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String formatDateTime = now.format(format);
 
 		//create a new object
-		Post post = new Post(title, message, email, username, formatDateTime, 0, 0);
+		Comment comment = new Comment(email, message, username, formatDateTime, 0, 0);
 
 		try {
 			//add the new object to the database
-			postDao.addPost(post);
-		} catch (SQLException throwables) {
+			commentDao.addComment(comment);
+		} catch (SQLException | ClassNotFoundException throwables) {
 			throwables.printStackTrace();
 		}
-		// send them back to "list posts" page
-		response.sendRedirect("/list-posts");
+		// send them back to "list comments" page
+		response.sendRedirect("/list-comments");
 
 	}
 }

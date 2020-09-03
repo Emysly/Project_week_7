@@ -72,7 +72,7 @@
 
 				<!--  set up a link to dislike a post -->
 				<c:url var="dislikeLink" value="GetServlet">
-					<c:param name="command" value="DISLIKE" />
+					<c:param name="command" value="UNLIKE" />
 					<c:param name="postId" value="${post.id}" />
 				</c:url>
 
@@ -83,15 +83,15 @@
 					<td>
 						<a href="${updateLink}" data-toggle="tooltip" data-placement="top" title="Update"><i class="fas fa-edit"></i></a>
 						&nbsp;&nbsp;&nbsp;
-						<a href="${viewLink}" data-toggle="tooltip" data-placement="top" title="Comment"><i class="fas fa-comment-dots text-secondary"></i></i></a>
+						<a href="${viewLink}" data-toggle="tooltip" data-placement="top" title="View"><i class="fas fa-eye text-secondary"></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="${deleteLink}"
 						   onclick="if (!(confirm('Are you sure you want to delete this post?'))) return false">
 							<i class="fas fa-minus-circle text-danger"  data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a data-toggle="tooltip" data-placement="top" title="Like" class="like" onclick="like()"><i class="far fa-thumbs-up"><span class="count"></span></i></a>
+						<a data-toggle="tooltip" data-placement="top" title="Like" href="${likeLink}"><i class="far fa-thumbs-up">${post.likePost}</i></a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a data-toggle="tooltip" data-placement="top" title="Unlike" class="dislike" onclick="dislike()"><i class="far fa-thumbs-down"><span class="discount"></span></i></a>
+						<a data-toggle="tooltip" data-placement="top" title="Unlike" href="${dislikeLink}"><i class="far fa-thumbs-down">${post.dislikePost}</i></a>
 <%--						<button type="button" class="like btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Like" name="like" onclick="like()">--%>
 <%--							Like--%>
 <%--						</button>--%>
@@ -114,36 +114,24 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
-    // function preventBack(){
-    //     window.history.forward();
-    // }
-	//
-    // setTimeout("preventBack()", 0);
-	//
-    // window.onunload=function(){
-    //     null
-    // };
+    function preventBack(){
+        window.history.forward();
+    }
 
-    // var likeCount = 0;
-    // var dislikeCount = 0;
-    // // var likeButton = document.getElementById("like");
-    // // var dislikeButton = document.getElementById("dislike");
-    // var displayLikeCount = document.getElementById("displayLikeCount");
-    // var displayDislikeCount = document.getElementById("displayDislikeCount");
-    //  function likeButton(){
-    //     likeCount++;
-    //     displayLikeCount.innerHTML = likeCount;
-    // }
-    // function dislikeButton(){
-    //     dislikeCount++;
-    //     displayDislikeCount.innerHTML = dislikeCount;
-    // }
+    setTimeout("preventBack()", 0);
+
+    window.onunload=function(){
+        null
+    };
+
 
 
     let count = 1;
     let discount = 1;
+
+    document.querySelector(".like").style.cursor = "pointer";
+    document.querySelector(".dislike").style.cursor = "pointer";
     function like() {
-        document.querySelector(".dislike").style.cursor = "pointer";
         document.querySelector(".like").style.cursor = "pointer";
         document.querySelector(".dislike").style.color = "black";
         document.querySelector(".like").style.color = "red";
@@ -152,7 +140,6 @@
 
     function dislike() {
         document.querySelector(".dislike").style.cursor = "pointer";
-        document.querySelector(".like").style.cursor = "pointer";
         document.querySelector(".like").style.color = "black";
         document.querySelector(".dislike").style.color = "red";
         document.querySelector(".discount").textContent = discount++;

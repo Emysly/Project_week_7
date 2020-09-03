@@ -3,6 +3,8 @@ package com.emysilva.dao.comment;
 import com.emysilva.model.comment.Comment;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,24 +50,24 @@ public class CommentDao {
 			email = comment.getEmail();
 			username = comment.getUsername();
 			message = comment.getMessage();
-//			createdAt = comment.getCreatedAt();
-//			int likes = comment.getLikes();
-//			int dislikes = comment.getDislikes();
+			createdAt = comment.getCreatedAt();
+			int likes = comment.getLikePost();
+			int dislikes = comment.getDislikePost();
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/facebookclone?useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "swag4sure");
 
-			String query = "insert into comment(email, message, username) values (?, ?, ?)"; //Insert user details into the table 'comment'
+			String query = "insert into comment(email, message, username, createdAt, likePost, dislikePost) values (?, ?, ?,?,?,?)"; //Insert user details into the table 'comment'
 
 
 			PreparedStatement preparedStatement = con.prepareStatement(query); //Making use of prepared statements here to insert bunch of data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, message);
 			preparedStatement.setString(3, username);
-//			preparedStatement.setString(4, createdAt);
-//			preparedStatement.setInt(5, likes);
-//			preparedStatement.setInt(6, dislikes);
+			preparedStatement.setString(4, createdAt);
+			preparedStatement.setInt(5, likes);
+			preparedStatement.setInt(6, dislikes);
 
 //			System.out.println(i);
 //			preparedStatement.close();
@@ -91,7 +93,9 @@ public class CommentDao {
 
 				connect();
 
-				String sql = "SELECT * FROM comment";
+				String sql = "SELECT comment.id as comment_id, post.id as post_id, comment.email, comment.username, comment.message, comment.createdAt, comment.likePost, comment.dislikePost\n" +
+						"FROM comment\n" +
+						"INNER JOIN post ON post.id=comment.id";
 
 				statement = jdbcConnection.createStatement();
 
@@ -99,15 +103,16 @@ public class CommentDao {
 
 
 				while (resultSet.next()) {
-					int id = resultSet.getInt("id");
+					int comment_id = resultSet.getInt("comment_id");
+					int post_id = resultSet.getInt("post_id");
 					String email = resultSet.getString("email");
 					String message = resultSet.getString("message");
 					String username = resultSet.getString("username");
-//					String date = resultSet.getString("createdAt");
-//					int likes = resultSet.getInt("likes");
-//					int dislikes = resultSet.getInt("dislikes");
+					String createdAt = resultSet.getString("createdAt");
+					int likes = resultSet.getInt("likePost");
+					int dislikes = resultSet.getInt("dislikePost");
 
-					Comment comment = new Comment(id, email, message, username);
+					Comment comment = new Comment(comment_id, post_id, email, message, username, createdAt, likes, dislikes);
 
 					listComment.add(comment);
 				}
@@ -147,7 +152,11 @@ public class CommentDao {
 			try {
 				connect();
 
-				String sql = "UPDATE comment SET email = ?, message = ?, username = ? WHERE id = ?";
+				String sql = "UPDATE comment SET email = ?, message = ?, username = ?, createdAt = ? WHERE id = ?";
+
+				LocalDateTime now = LocalDateTime.now();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+				String formatDateTime = now.format(format);
 
 				statement = jdbcConnection.prepareStatement(sql);
 
@@ -155,6 +164,7 @@ public class CommentDao {
 				statement.setString(2, comment.getMessage());
 				statement.setString(3, comment.getUsername());
 				statement.setInt(4, comment.getId());
+				statement.setString(5, formatDateTime);
 
 				statement.execute();
 
@@ -187,8 +197,11 @@ public class CommentDao {
 					String email = resultSet.getString("email");
 					String message = resultSet.getString("message");
 					String username = resultSet.getString("username");
+					String createdAt = resultSet.getString("createdAt");
+					int like = resultSet.getInt("likePost");
+					int unlike = resultSet.getInt("dislikePost");
 
-					comment = new Comment(commentId, email, message, username);
+					comment = new Comment(commentId, email, message, username, createdAt, like, unlike);
 				} else {
 					throw new Exception("Could not find comment with id: " + commentId);
 				}
@@ -213,4 +226,55 @@ public class CommentDao {
 		}
 	}
 
+	public void addDislikeComment(String commentId) {
+		PreparedStatement statement = null;
+		try {
+
+			int id = Integer.parseInt(commentId);
+
+			connect();
+
+			String sql = "UPDATE comment SET dislikePost = dislikePost + 1 WHERE id = ?";
+
+
+			statement = jdbcConnection.prepareStatement(sql);
+
+			//add the updated data to database
+
+			statement.setInt(1, id);
+
+			statement.execute();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			close(null, statement);
+		}
+	}
+
+	public void addLikeComment(String commentId) {
+		PreparedStatement statement = null;
+		try {
+
+			int id = Integer.parseInt(commentId);
+
+			connect();
+
+			String sql = "UPDATE comment SET likePost = likePost + 1 WHERE id = ?";
+
+
+			statement = jdbcConnection.prepareStatement(sql);
+
+			//add the updated data to database
+
+			statement.setInt(1, id);
+
+			statement.execute();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			close(null, statement);
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package com.emysilva.controller.post;
 
 import com.emysilva.dao.post.PostDao;
+import com.emysilva.model.post.LikeUnlike;
 import com.emysilva.model.post.Post;
 
 import javax.servlet.ServletException;
@@ -52,8 +53,8 @@ public class GetServlet extends HttpServlet {
 					likePost(request, response);
 					break;
 
-				case "DISLIKE":
-					dislikePost(request, response);
+				case "UNLIKE":
+					unlikePost(request, response);
 
 				default:
 					listPosts(request, response);
@@ -64,27 +65,24 @@ public class GetServlet extends HttpServlet {
 		}
 	}
 
-	private void dislikePost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-		String dislike = request.getParameter("dislike");
-		int strToInt = Integer.parseInt(dislike);
 
-		Post post = new Post(strToInt);
+	private void unlikePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		request.setAttribute("dislikeCount", post);
+		String postId = request.getParameter("postId");
 
-		postDao.addDislike(post);
+		postDao.addDislike(postId);
 
+		// send to JSP page (view)
+		listPosts(request, response);
 	}
 
-	private void likePost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-		String like = request.getParameter("like");
-		int strToInt = Integer.parseInt(like);
+	private void likePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String postId = request.getParameter("postId");
 
-		Post post = new Post(strToInt);
+		postDao.addLike(postId);
 
-		request.setAttribute("likeCount", post);
-
-		postDao.addLike(post);
+		// send to JSP page (view)
+		listPosts(request, response);
 
 	}
 

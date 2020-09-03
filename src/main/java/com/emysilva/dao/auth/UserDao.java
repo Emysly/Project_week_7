@@ -44,7 +44,7 @@ public class UserDao {
 	public String registerUser(User userbean) throws ClassNotFoundException, SQLException {
 
 		String email, firstname, lastname, username, password, confpassword,
-				contact;
+				contact, createdAt;
 		if (!userbean.getEmail().equals("")) {
 			email = userbean.getEmail();
 		} else {
@@ -90,12 +90,18 @@ public class UserDao {
 			return "User contact must be provided";
 		}
 
+		if (!userbean.getCreatedAt().equals("")) {
+			createdAt = userbean.getCreatedAt();
+		} else {
+			return "User created at must be provided";
+		}
+
 			try
 			{
 				connect();
 
 				//Insert user details into the table 'user'
-				String query = "insert into user(email, firstname, lastname, username, password, confpassword, contact) values (?, ?, ?, ?, ?, ?, ?)";
+				String query = "insert into user(email, firstname, lastname, username, password, confpassword, contact, createdAt) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
 				//Making use of prepared statements here to insert bunch of data
 				PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query);
@@ -106,6 +112,7 @@ public class UserDao {
 				preparedStatement.setString(5, password);
 				preparedStatement.setString(6, confpassword);
 				preparedStatement.setString(7, contact);
+				preparedStatement.setString(8, createdAt);
 
 				int i= preparedStatement.executeUpdate();
 

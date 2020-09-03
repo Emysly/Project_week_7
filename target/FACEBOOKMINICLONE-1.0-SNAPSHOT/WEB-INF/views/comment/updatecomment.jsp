@@ -25,7 +25,7 @@
 </nav>
 <div class="container p-5">
 	<h1 class="mt-5 text-center text-primary">Update Post</h1>
-	<form action="GetServlet" method="GET" class="container px-5">
+	<form action="CommentServlet" method="GET" class="container px-5">
 		<input type="hidden" name="command" value="UPDATE" />
 
 		<input type="hidden" name="commentId" value="${comment.id}"/>

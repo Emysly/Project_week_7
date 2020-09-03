@@ -115,7 +115,7 @@ public class CommentServlet extends HttpServlet {
 		throws Exception {
 
 			// read comment info from form data
-			int id = Integer.parseInt(request.getParameter("studentId"));
+			int id = Integer.parseInt(request.getParameter("commentId"));
 			String email = request.getParameter("email");
 			String message = request.getParameter("message");
 			String username = request.getParameter("username");
